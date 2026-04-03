@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "partials.html" as ui %}
+
+{% block title %}TasteStream | Видео{% endblock %}
+
+{% block content %}
+<section class="section-hero">
+  <p class="eyebrow">Видеораздел</p>
+  <h2>Видео-рецепты и ролики автора.</h2>
+  <p class="hero-text">Здесь собраны только видео. Если ролик загружен с сайта, он открывается прямо в карточке.</p>
+</section>
+
+<section class="content-section">
+  <div class="post-grid">
+    {% for post in posts %}
+      {{ ui.render_post(post, "videos") }}
+    {% else %}
+      <article class="empty-state">Видео пока нет, но раздел уже готов для новых роликов.</article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

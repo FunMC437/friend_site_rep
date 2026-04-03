@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "partials.html" as ui %}
+
+{% block title %}TasteStream | Начало{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+  <span class="spotlight-pill">Домашняя кухня, фото и видео</span>
+  <h2>Красивый сайт, где друг выкладывает рецепты, а гости просто смотрят, лайкают и комментируют.</h2>
+  <p class="hero-text">Сверху теперь отдельные страницы. Автор работает через свою страницу, а обычные посетители спокойно листают и ставят реакции.</p>
+  <div class="hero-actions">
+    <a class="primary-button" href="{{ url_for('recipes') }}">Перейти к рецептам</a>
+    <a class="secondary-button" href="{{ url_for('videos') }}">Открыть видео</a>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <article class="feature-tile">
+    <p class="feature-kicker">Навигация</p>
+    <h3>Четкое верхнее меню</h3>
+    <p>Начало, рецепты, видео и автор теперь разделены на разные страницы, без перегруза внизу.</p>
+  </article>
+  <article class="feature-tile">
+    <p class="feature-kicker">Реакции</p>
+    <h3>Лайки и эмоции</h3>
+    <p>Гости могут оставлять реакции на публикации и обсуждать понравившиеся блюда.</p>
+  </article>
+  <article class="feature-tile">
+    <p class="feature-kicker">Чистые комментарии</p>
+    <h3>Мат фильтруется</h3>
+    <p>Комментарии с грубыми словами не публикуются, чтобы страница выглядела аккуратно.</p>
+  </article>
+</section>
+
+<section class="content-section">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">Последние публикации</p>
+      <h3>Свежее из ленты</h3>
+    </div>
+  </div>
+  <div class="post-grid">
+    {% for post in posts %}
+      {{ ui.render_post(post, "home") }}
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

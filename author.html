@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% import "partials.html" as ui %}
+
+{% block title %}TasteStream | Автор{% endblock %}
+
+{% block content %}
+{% if is_author_logged_in %}
+  <section class="author-layout">
+    <section class="panel author-panel">
+      <div class="panel-title-row">
+        <div>
+          <p class="eyebrow">Панель автора</p>
+          <h2>Новая публикация</h2>
+        </div>
+        <form action="{{ url_for('logout') }}" method="post">
+          <button class="glass-button compact" type="submit">Выйти</button>
+        </form>
+      </div>
+
+      <form class="stacked-form" action="{{ url_for('create_post') }}" method="post" enctype="multipart/form-data">
+        <label>
+          Заголовок
+          <input type="text" name="title" placeholder="Например: Крем-суп из тыквы" required>
+        </label>
+        <label>
+          Категория
+          <select name="category">
+            <option value="recipe">Рецепт</option>
+            <option value="video">Видео</option>
+          </select>
+        </label>
+        <label>
+          Описание
+          <textarea name="description" rows="4" placeholder="Коротко опиши публикацию" required></textarea>
+        </label>
+        <label>
+          Фото по ссылке
+          <input type="url" name="image_url" placeholder="https://...">
+        </label>
+        <label>
+          Фото с компьютера
+          <input type="file" name="image_file" accept=".png,.jpg,.jpeg,.webp,.gif">
+        </label>
+        <label>
+          Видео по ссылке
+          <input type="url" name="video_url" placeholder="https://...">
+        </label>
+        <label>
+          Видео с компьютера
+          <input type="file" name="video_file" accept=".mp4,.webm,.mov,.m4v">
+        </label>
+        <button class="primary-button" type="submit">Опубликовать</button>
+      </form>
+    </section>
+
+    <section class="content-section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Записи автора</p>
+          <h3>Все публикации</h3>
+        </div>
+      </div>
+      <div class="post-grid">
+        {% for post in posts %}
+          {{ ui.render_post(post, "author") }}
+        {% else %}
+          <article class="empty-state">Пока публикаций нет. Добавь первую запись.</article>
+        {% endfor %}
+      </div>
+    </section>
+  </section>
+{% else %}
+  <section class="login-shell">
+    <article class="panel login-panel">
+      <p class="eyebrow">Доступ автора</p>
+      <div class="auth-switches">
+        <a class="nav-link {% if not register_mode %}is-current{% endif %}" href="{{ url_for('author') }}">Вход</a>
+        <a class="nav-link {% if register_mode %}is-current{% endif %}" href="{{ url_for('author', mode='register') }}">Регистрация</a>
+      </div>
+
+      {% if register_mode %}
+        <h2>Регистрация автора</h2>
+        <p class="hero-text">Эта форма только для автора. После регистрации новые почта и пароль сохранятся для входа в панель.</p>
+        <form class="stacked-form" action="{{ url_for('register_author') }}" method="post">
+          <label>
+            Почта
+            <input type="email" name="email" value="{{ current_email }}" required>
+          </label>
+          <label>
+            Пароль
+            <input type="password" name="password" required>
+          </label>
+          <label>
+            Повтори пароль
+            <input type="password" name="confirm_password" required>
+          </label>
+          <button class="primary-button" type="submit">Зарегистрировать автора</button>
+        </form>
+      {% else %}
+        <h2>Вход в панель публикаций</h2>
+        <p class="hero-text">Здесь автор входит по своей почте и паролю, а все действия по добавлению рецептов и видео открываются только после входа.</p>
+        <form class="stacked-form" action="{{ url_for('login') }}" method="post">
+          <label>
+            Почта
+            <input type="email" name="email" value="{{ current_email }}" required>
+          </label>
+          <label>
+            Пароль
+            <input type="password" name="password" required>
+          </label>
+          <button class="primary-button" type="submit">Войти</button>
+        </form>
+      {% endif %}
+    </article>
+  </section>
+{% endif %}
+{% endblock %}

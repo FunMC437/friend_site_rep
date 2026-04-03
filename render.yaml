@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: tastestream
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: AUTHOR_EMAIL
+        value: tom@gmail.com
+      - key: AUTHOR_PASSWORD
+        value: 12344321
+      - key: DATA_ROOT
+        value: /var/data
+    disk:
+      name: tastestream-data
+      mountPath: /var/data
+      sizeGB: 1

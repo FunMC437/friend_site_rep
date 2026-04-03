@@ -1,0 +1,71 @@
+{% macro render_post(post, page_name) -%}
+<article class="post-card" id="post-{{ post.id }}">
+  {% if post.category == "video" and post.video_url and post.is_uploaded_video %}
+    <video class="post-cover" controls preload="metadata">
+      <source src="{{ post.video_url }}">
+    </video>
+  {% else %}
+    <img class="post-cover" src="{{ post.image_url }}" alt="{{ post.title }}">
+  {% endif %}
+
+  <div class="post-body">
+    <div class="post-meta-row">
+      <span class="badge badge-{{ post.category }}">
+        {{ "Видео" if post.category == "video" else "Рецепт" }}
+      </span>
+      <span class="post-date">{{ post.created_at }}</span>
+    </div>
+
+    <h3 class="post-title">{{ post.title }}</h3>
+    <p class="post-description">{{ post.description }}</p>
+
+    {% if post.category == "video" and post.video_url and not post.is_uploaded_video %}
+      <a class="text-link" href="{{ post.video_url }}" target="_blank" rel="noopener noreferrer">Смотреть видео ↗</a>
+    {% endif %}
+
+    <div class="reaction-row">
+      <form action="{{ url_for('react', post_id=post.id, reaction='like') }}" method="post">
+        <input type="hidden" name="next_page" value="{{ page_name }}">
+        <button class="reaction-button" type="submit">👍 <span>{{ post.like_count }}</span></button>
+      </form>
+      <form action="{{ url_for('react', post_id=post.id, reaction='heart') }}" method="post">
+        <input type="hidden" name="next_page" value="{{ page_name }}">
+        <button class="reaction-button" type="submit">❤️ <span>{{ post.heart_count }}</span></button>
+      </form>
+      <form action="{{ url_for('react', post_id=post.id, reaction='fire') }}" method="post">
+        <input type="hidden" name="next_page" value="{{ page_name }}">
+        <button class="reaction-button" type="submit">🔥 <span>{{ post.fire_count }}</span></button>
+      </form>
+    </div>
+
+    <section class="comment-zone">
+      <div class="comment-zone-head">
+        <h4>Комментарии</h4>
+        <span>{{ post.comments|length }}</span>
+      </div>
+
+      <form class="comment-form" action="{{ url_for('create_comment') }}" method="post">
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <input type="hidden" name="next_page" value="{{ page_name }}">
+        <input type="text" name="author_name" placeholder="Ваше имя" required>
+        <textarea name="body" rows="3" placeholder="Напишите комментарий" required></textarea>
+        <button class="secondary-button compact" type="submit">Отправить</button>
+      </form>
+
+      <div class="comment-list">
+        {% for comment in post.comments %}
+          <article class="comment-card">
+            <div class="comment-head">
+              <strong>{{ comment.author_name }}</strong>
+              <span>{{ comment.created_at }}</span>
+            </div>
+            <p>{{ comment.body }}</p>
+          </article>
+        {% else %}
+          <p class="empty-note">Пока комментариев нет. Можно стать первым.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</article>
+{%- endmacro %}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TasteStream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-mark">TS</span>
+          <div>
+            <p class="eyebrow">Видео и рецепты</p>
+            <h1>TasteStream</h1>
+          </div>
+        </div>
+        <button id="openLoginBtn" class="ghost-button">Вход для автора</button>
+      </nav>
+
+      <section class="hero-content">
+        <div class="hero-copy">
+          <p class="pill">Домашняя кухня • видео • общение</p>
+          <h2>Сайт для вкусных рецептов, уютных роликов и живых комментариев.</h2>
+          <p class="hero-text">
+            Друг может публиковать новые рецепты и видео через защищенный вход,
+            а посетители смогут читать, вдохновляться и оставлять комментарии.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#feed">Смотреть публикации</a>
+            <button id="scrollToCommentsBtn" class="secondary-button">Открыть обсуждения</button>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <p class="card-label">Доступ автора</p>
+          <p><strong>Почта:</strong> chef@tastestream.site</p>
+          <p><strong>Пароль:</strong> Recipe2026!</p>
+          <span class="note">Сейчас логин встроен в демо. Потом можно подключить базу данных.</span>
+        </aside>
+      </section>
+    </header>
+
+    <main class="layout" id="feed">
+      <section class="feed-column">
+        <div class="section-heading">
+          <p class="eyebrow">Лента</p>
+          <h3>Свежие публикации</h3>
+        </div>
+        <div id="postsContainer" class="post-grid"></div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel author-panel hidden" id="authorPanel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Панель автора</p>
+              <h3>Новая публикация</h3>
+            </div>
+            <button id="logoutBtn" class="ghost-button small">Выйти</button>
+          </div>
+
+          <form id="postForm" class="stacked-form">
+            <label>
+              Заголовок
+              <input type="text" id="titleInput" placeholder="Например: Паста с томатами" required>
+            </label>
+            <label>
+              Категория
+              <select id="categoryInput">
+                <option value="recipe">Рецепт</option>
+                <option value="video">Видео</option>
+              </select>
+            </label>
+            <label>
+              Описание
+              <textarea id="descriptionInput" rows="4" placeholder="Коротко расскажи о публикации" required></textarea>
+            </label>
+            <label>
+              Ссылка на картинку
+              <input type="url" id="imageInput" placeholder="https://...">
+            </label>
+            <label>
+              Ссылка на видео
+              <input type="url" id="videoInput" placeholder="https://youtube.com/...">
+            </label>
+            <button class="primary-button full" type="submit">Опубликовать</button>
+          </form>
+        </section>
+
+        <section class="panel login-panel" id="loginPanel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Авторизация</p>
+              <h3>Вход для друга</h3>
+            </div>
+          </div>
+          <form id="loginForm" class="stacked-form">
+            <label>
+              Почта
+              <input type="email" id="emailInput" placeholder="chef@tastestream.site" required>
+            </label>
+            <label>
+              Пароль
+              <input type="password" id="passwordInput" placeholder="Введите пароль" required>
+            </label>
+            <button class="primary-button full" type="submit">Войти как автор</button>
+          </form>
+          <p id="loginMessage" class="message"></p>
+        </section>
+
+        <section class="panel" id="commentsSection">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Общение</p>
+              <h3>Комментарии</h3>
+            </div>
+          </div>
+          <form id="commentForm" class="stacked-form">
+            <label>
+              Ваше имя
+              <input type="text" id="commentAuthorInput" placeholder="Как вас зовут?" required>
+            </label>
+            <label>
+              Комментарий
+              <textarea id="commentTextInput" rows="4" placeholder="Напишите отзыв или вопрос" required></textarea>
+            </label>
+            <button class="secondary-button full" type="submit">Отправить комментарий</button>
+          </form>
+          <div id="commentsList" class="comment-list"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

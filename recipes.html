@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "partials.html" as ui %}
+
+{% block title %}TasteStream | Рецепты{% endblock %}
+
+{% block content %}
+<section class="section-hero">
+  <p class="eyebrow">Коллекция блюд</p>
+  <h2>Все рецепты автора в одном месте.</h2>
+  <p class="hero-text">Здесь только рецепты. Листай карточки, сохраняй идеи и оставляй реакции под тем, что понравилось.</p>
+</section>
+
+<section class="content-section">
+  <div class="post-grid">
+    {% for post in posts %}
+      {{ ui.render_post(post, "recipes") }}
+    {% else %}
+      <article class="empty-state">Пока рецептов нет, но скоро здесь появится что-то вкусное.</article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
